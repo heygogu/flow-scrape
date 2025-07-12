@@ -1,21 +1,21 @@
-
-"use client"
-import { cn } from '@/lib/utils'
-import { useReactFlow } from '@xyflow/react'
-import React, { ReactNode } from 'react'
+'use client';
+import { cn } from '@/lib/utils';
+import { useReactFlow } from '@xyflow/react';
+import React, { ReactNode } from 'react';
 
 function NodeCard({
-    children,
-    nodeId,
-    isSelected
+   children,
+   nodeId,
+   isSelected,
 }: {
-    nodeId: string,
-    children: ReactNode,
-    isSelected: boolean
+   nodeId: string;
+   children: ReactNode;
+   isSelected: boolean;
 }) {
-    const { getNode, setCenter } = useReactFlow();
-    return (
-        <div onDoubleClick={() => {
+   const { getNode, setCenter } = useReactFlow();
+   return (
+      <div
+         onDoubleClick={() => {
             const node = getNode(nodeId);
 
             if (!node) return;
@@ -32,14 +32,18 @@ function NodeCard({
             if (x === undefined || y === undefined) return;
 
             setCenter(x, y, {
-                zoom: 1,
-                duration: 500
-            })
-
-        }} className={cn("rounded-md cursor-poiner bg-background border-2 border-separate w-[420px] text-xs gap-1 flex flex-col", isSelected && "border-primary")}>
-            {children}
-        </div>
-    )
+               zoom: 1,
+               duration: 500,
+            });
+         }}
+         className={cn(
+            'rounded-md cursor-poiner bg-background border-2 border-separate w-[420px] text-xs gap-1 flex flex-col',
+            isSelected && 'border-primary'
+         )}
+      >
+         {children}
+      </div>
+   );
 }
 
-export default NodeCard
+export default NodeCard;

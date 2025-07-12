@@ -1,19 +1,27 @@
-import { NodeProps } from '@xyflow/react'
-import React, { memo } from 'react'
-import NodeCard from '@/app/workflow/_components/nodes/NodeCard'
-import NodeHeader from './NodeHeader'
-import { AppNodeData } from '@/types/appNode'
+import { NodeProps } from '@xyflow/react';
+import React, { memo } from 'react';
+import NodeCard from '@/app/workflow/_components/nodes/NodeCard';
+import NodeHeader from './NodeHeader';
+import { AppNodeData } from '@/types/appNode';
+import { TaskRegistry } from '@/lib/workflow/task/registry';
+import { NodeInput, NodeInputs } from './NodeInputs';
 
 const NodeComponent = memo((props: NodeProps) => {
+   const nodeData = props.data as AppNodeData;
 
-    const nodeData = props.data as AppNodeData
-    return (
-        <NodeCard isSelected={!!props.selected} nodeId={props.id}>
-            <NodeHeader taskType={nodeData.type} />
-        </NodeCard>
-    )
-})
+   const task = TaskRegistry[nodeData.type];
+   return (
+      <NodeCard isSelected={!!props.selected} nodeId={props.id}>
+         <NodeHeader taskType={nodeData.type} />
+         <NodeInputs>
+            {task.inputs.map(input => (
+               <NodeInput key={input.name} input={input} nodeId={props.id} />
+            ))}
+         </NodeInputs>
+      </NodeCard>
+   );
+});
 
-export default NodeComponent
+export default NodeComponent;
 
-NodeComponent.displayName = "NodeComponent"
+NodeComponent.displayName = 'NodeComponent';
